@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算器 - 前端</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-layout">
+        <main class="calculator" aria-label="计算器">
+            <nav class="mode-tabs" aria-label="计算模式">
+                <button type="button" class="mode-tab active" data-mode="standard">标准计算</button>
+                <button type="button" class="mode-tab" data-mode="base">进制转换</button>
+                <button type="button" class="mode-tab" data-mode="scientific">科学计算</button>
+            </nav>
+
+            <div id="standard-panel" class="mode-panel">
+                <section class="screen">
+                    <div id="previous-command" class="previous-command" aria-live="polite"></div>
+                    <input
+                        id="expression"
+                        class="expression"
+                        type="text"
+                        inputmode="decimal"
+                        autocomplete="off"
+                        placeholder="0"
+                        aria-label="计算表达式"
+                    >
+                    <div id="result" class="result" aria-live="polite">0</div>
+                </section>
+
+                <section id="keys" class="keys">
+                    <button type="button" class="key key-function" data-action="clear">AC</button>
+                    <button type="button" class="key key-function" data-action="backspace">⌫</button>
+                    <button type="button" class="key key-function" data-value="(">(</button>
+                    <button type="button" class="key key-function" data-value=")">)</button>
+
+                    <button type="button" class="key" data-value="7">7</button>
+                    <button type="button" class="key" data-value="8">8</button>
+                    <button type="button" class="key" data-value="9">9</button>
+                    <button type="button" class="key key-operator" data-value="÷">÷</button>
+
+                    <button type="button" class="key" data-value="4">4</button>
+                    <button type="button" class="key" data-value="5">5</button>
+                    <button type="button" class="key" data-value="6">6</button>
+                    <button type="button" class="key key-operator" data-value="×">×</button>
+
+                    <button type="button" class="key" data-value="1">1</button>
+                    <button type="button" class="key" data-value="2">2</button>
+                    <button type="button" class="key" data-value="3">3</button>
+                    <button type="button" class="key key-operator" data-value="-">-</button>
+
+                    <button type="button" class="key" data-value="0">0</button>
+                    <button type="button" class="key" data-value=".">.</button>
+                    <button type="button" class="key key-operator" data-value="+">+</button>
+                    <button type="button" class="key key-equals" data-action="calculate">=</button>
+                </section>
+            </div>
+
+            <div id="base-panel" class="mode-panel hidden">
+                <section class="converter">
+                    <h2>数字进制转换</h2>
+
+                    <label class="converter-field">
+                        <span>数字</span>
+                        <input
+                            id="base-value"
+                            type="text"
+                            autocomplete="off"
+                            placeholder="例如：1010"
+                        >
+                    </label>
+
+                    <div class="converter-row">
+                        <label class="converter-field">
+                            <span>从</span>
+                            <select id="from-base">
+                                <option value="2">二进制（2）</option>
+                                <option value="8">八进制（8）</option>
+                                <option value="10" selected>十进制（10）</option>
+                                <option value="16">十六进制（16）</option>
+                            </select>
+                        </label>
+
+                        <label class="converter-field">
+                            <span>到</span>
+                            <select id="to-base">
+                                <option value="2">二进制（2）</option>
+                                <option value="8">八进制（8）</option>
+                                <option value="10">十进制（10）</option>
+                                <option value="16" selected>十六进制（16）</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <button type="button" id="base-convert" class="converter-button">转换</button>
+                    <div id="base-result" class="converter-result" aria-live="polite">等待转换</div>
+                </section>
+            </div>
+
+            <div id="scientific-panel" class="mode-panel hidden">
+                <section class="screen">
+                    <div id="sci-previous-command" class="previous-command" aria-live="polite"></div>
+                    <input
+                        id="sci-expression"
+                        class="expression"
+                        type="text"
+                        inputmode="text"
+                        autocomplete="off"
+                        placeholder="0"
+                        aria-label="科学计算表达式"
+                    >
+                    <div id="sci-result" class="result" aria-live="polite">0</div>
+                </section>
+
+                <section id="sci-keys" class="keys sci-keys">
+                    <button type="button" class="key key-function" data-sci-value="sin(">sin</button>
+                    <button type="button" class="key key-function" data-sci-value="cos(">cos</button>
+                    <button type="button" class="key key-function" data-sci-value="tan(">tan</button>
+                    <button type="button" class="key key-function" data-sci-value="sqrt(">√</button>
+
+                    <button type="button" class="key key-function" data-sci-value="^">x^y</button>
+                    <button type="button" class="key key-function" data-sci-value="log(">log</button>
+                    <button type="button" class="key key-function" data-sci-value="ln(">ln</button>
+                    <button type="button" class="key key-function" data-sci-value="pi">π</button>
+
+                    <button type="button" class="key key-function" data-sci-value="(">(</button>
+                    <button type="button" class="key key-function" data-sci-value=")">)</button>
+                    <button type="button" class="key key-function" data-sci-action="sci-backspace">⌫</button>
+                    <button type="button" class="key key-function" data-sci-action="sci-clear">AC</button>
+
+                    <button type="button" class="key" data-sci-value="7">7</button>
+                    <button type="button" class="key" data-sci-value="8">8</button>
+                    <button type="button" class="key" data-sci-value="9">9</button>
+                    <button type="button" class="key key-operator" data-sci-value="÷">÷</button>
+
+                    <button type="button" class="key" data-sci-value="4">4</button>
+                    <button type="button" class="key" data-sci-value="5">5</button>
+                    <button type="button" class="key" data-sci-value="6">6</button>
+                    <button type="button" class="key key-operator" data-sci-value="×">×</button>
+
+                    <button type="button" class="key" data-sci-value="1">1</button>
+                    <button type="button" class="key" data-sci-value="2">2</button>
+                    <button type="button" class="key" data-sci-value="3">3</button>
+                    <button type="button" class="key key-operator" data-sci-value="-">-</button>
+
+                    <button type="button" class="key" data-sci-value="0">0</button>
+                    <button type="button" class="key" data-sci-value=".">.</button>
+                    <button type="button" class="key key-operator" data-sci-value="+">+</button>
+                    <button type="button" class="key key-equals" data-sci-action="sci-calculate">=</button>
+                </section>
+            </div>
+        </main>
+
+        <section class="history-panel">
+            <div class="history-header">
+                <h2>计算历史</h2>
+                <div class="history-actions">
+                    <button type="button" id="clear-history" class="history-clear">清空</button>
+                    <button type="button" id="refresh-history" class="history-refresh">刷新</button>
+                </div>
+            </div>
+            <ul id="history-list" class="history-list">
+                <li class="history-empty">暂无历史记录</li>
+            </ul>
+        </section>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/calculator.js"></script>
+</body>
+</html>
