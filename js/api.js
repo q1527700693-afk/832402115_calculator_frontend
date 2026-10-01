@@ -1,7 +1,13 @@
 (function () {
     "use strict";
 
-    var API_BASE = "http://localhost:8080";
+    var isLocal = window.location.protocol === "file:"
+        || window.location.hostname === "localhost"
+        || window.location.hostname === "127.0.0.1";
+
+    var API_BASE = isLocal
+        ? "http://localhost:8080"
+        : "http://120.27.206.217:8080";
 
     function request(url, options) {
         return fetch(url, options)
